@@ -39,7 +39,7 @@ let s:VimSplitBalancerIgnoreFiletypes = uniq(extend([
 " - winwidth(0) function is (confusingly) the actual width of the current
 "   window. Not the minimum width when `wincmd =` is called .
 " - NERDTree should have winfixwidth set.
-function! s:EnsureNERDWidth()
+function! s:BalanceSplits()
   if get(g:, 'VimSplitBalancerSupress', 0)
     return
   endif
@@ -76,10 +76,10 @@ augroup VimSplitBalancer
   autocmd!
 
   " Restore it.
-  autocmd VimResized * call <SID>EnsureNERDWidth()
+  autocmd VimResized * call <SID>BalanceSplits()
 
   " Not sure why we needed this `WinEnter` hook, and it messed up
   " the special "HUD" style location list layers in VimBox.
-  autocmd WinEnter * call <SID>EnsureNERDWidth()
-  autocmd TabEnter * call <SID>EnsureNERDWidth()
+  autocmd WinEnter * call <SID>BalanceSplits()
+  autocmd TabEnter * call <SID>BalanceSplits()
 augroup END
