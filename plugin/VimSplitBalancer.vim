@@ -13,9 +13,10 @@
 " ===============================================================================
 
 "  Load Once:
-if &cp || exists('g:vim_split_balancer')
+if exists('g:loaded_vim_split_balancer')
   finish
 endif
+let g:loaded_vim_split_balancer = 1
 
 " For some reason, NERDTree doesn't actually respect its width setting.
 let g:VimSplitBalancerMaxSideBar = 50
