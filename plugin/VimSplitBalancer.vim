@@ -34,38 +34,36 @@ let g:VimSplitBalancerMinWidth   = get(g:, 'VimSplitBalancerMinWidth',    70)
 "   window. Not the minimum width when `wincmd =` is called .
 " - NERDTree should have winfixwidth set.
 function! s:EnsureNERDWidth()
-  let shouldResize = exists('g:VimSplitBalancerSupress') && g:VimSplitBalancerSupress != 1 || !exists('g:VimSplitBalancerSupress')
-
-  if shouldResize
-    " If the window (such as NERDTree) is marked as immune to being resized
-    " due to winwidth when other windows are focused (or when `wincmd =` is
-    " invoked) that doesn't make it immune to resizing when that window does
-    " `wincmd =` itself, or is focused itself. To simulate that, we
-    " temporarily set that global `winwidth` to the current width.
-    if &winfixwidth || exists('b:NERDTree')
-
-      let &winwidth = min([winwidth(0), g:VimSplitBalancerMaxSideBar])
-      if winwidth(0) != &winwidth
-        execute 'vertical resize ' . &winwidth
-      endif
-
-      wincmd =
-    else
-      let longest = max(map(range(1, line('$')), "virtcol([v:val, '$'])"))
-
-      " We set the global setting when entering any window to make it seem
-      " as if winwidth was a perf-window setting.
-      let &winwidth = max([g:VimSplitBalancerMinWidth, min([longest, g:VimSplitBalancerMaxWidth])])
-      wincmd =
-    endif
-
-    " Now, set it back to 1, so that it effectively disables resizing when
-    " focusing/jumping around windows. Think of this plugin as a way to
-    " always have winwidth = 1, but then selectively set it to the "right"
-    " width only when g:VimSplitBalancerSupress is 0, and when not focusing
-    " on the NERDTree etc.
-    let &winwidth = 1
+  if get(g:, 'VimSplitBalancerSupress', 0)
+    return
   endif
+
+  " If the window (such as NERDTree) is marked as immune to being resized
+  " due to winwidth when other windows are focused (or when `wincmd =` is
+  " invoked) that doesn't make it immune to resizing when that window does
+  " `wincmd =` itself, or is focused itself. To simulate that, we
+  " temporarily set that global `winwidth` to the current width.
+  if &winfixwidth || exists('b:NERDTree')
+    let &winwidth = min([winwidth(0), g:VimSplitBalancerMaxSideBar])
+    if winwidth(0) != &winwidth
+      execute 'vertical resize ' . &winwidth
+    endif
+  else
+    let longest = max(map(range(1, line('$')), "virtcol([v:val, '$'])"))
+
+    " We set the global setting when entering any window to make it seem
+    " as if winwidth was a perf-window setting.
+    let &winwidth = max([g:VimSplitBalancerMinWidth, min([longest, g:VimSplitBalancerMaxWidth])])
+  endif
+
+  wincmd =
+
+  " Now, set it back to 1, so that it effectively disables resizing when
+  " focusing/jumping around windows. Think of this plugin as a way to
+  " always have winwidth = 1, but then selectively set it to the "right"
+  " width only when g:VimSplitBalancerSupress is 0, and when not focusing
+  " on the NERDTree etc.
+  let &winwidth = 1
 endfunction
 
 if !exists('g:NERDTreeWinSize')
