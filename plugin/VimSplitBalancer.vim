@@ -37,12 +37,12 @@ function! s:EnsureNERDWidth()
   let shouldResize = exists('g:VimSplitBalancerSupress') && g:VimSplitBalancerSupress != 1 || !exists('g:VimSplitBalancerSupress')
 
   if shouldResize
-    " If the window (such as NERDTree)is marked as immune to being resized
+    " If the window (such as NERDTree) is marked as immune to being resized
     " due to winwidth when other windows are focused (or when `wincmd =` is
     " invoked) that doesn't make it immune to resizing when that window does
     " `wincmd =` itself, or is focused itself. To simulate that, we
     " temporarily set that global `winwidth` to the current width.
-    if &winfixwidth || exists('b:NERDTreeType')
+    if &winfixwidth || exists('b:NERDTree')
 
       let &winwidth = min([winwidth(0), g:VimSplitBalancerMaxSideBar])
       if winwidth(0) != &winwidth
