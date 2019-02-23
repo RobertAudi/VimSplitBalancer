@@ -1,8 +1,11 @@
-" VimSplitBalancer.vim:
-" Maintainer:   jordwalke <github.com/jordwalke>
-" License:      MIT
+" ===========================================================================
+" File:          plugin/VimSplitBalancer.vim:
+" Maintainer:    Robert Audi <github.com/RobertAudi>
+" Author:        jordwalke <github.com/jordwalke>
+" License:       MIT
+" Last Modified: February 23, 2019
 "
-" =============================VimSplitBalancer.vim==============================
+" ============================ VimSplitBalancer.vim =========================
 " Distributes available space among vertical splits, but plays nice with
 " NERDTree.
 "
@@ -10,7 +13,7 @@
 " according to the max amount of characters horizontally in that text file.
 " The remaining space will be evenly distributed across all of the other
 " vertical splits.
-" ===============================================================================
+" ===========================================================================
 
 "  Load Once:
 if exists('g:loaded_vim_split_balancer')
