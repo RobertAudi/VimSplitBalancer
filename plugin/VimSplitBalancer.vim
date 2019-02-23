@@ -19,10 +19,9 @@ endif
 let g:loaded_vim_split_balancer = 1
 
 " For some reason, NERDTree doesn't actually respect its width setting.
-let g:VimSplitBalancerMaxSideBar = 50
-let g:VimSplitBalancerMaxWidth = 110
-let g:VimSplitBalancerMinWidth = 70
-let g:vim_split_balancer = 1
+let g:VimSplitBalancerMaxSideBar = get(g:, 'VimSplitBalancerMaxSideBar',  50)
+let g:VimSplitBalancerMaxWidth   = get(g:, 'VimSplitBalancerMaxWidth',   110)
+let g:VimSplitBalancerMinWidth   = get(g:, 'VimSplitBalancerMinWidth',    70)
 
 " - winwidth setting is the *minimum* window width for the focused window at
 "   the time of invoking `wincmd =`, or just focusing a window. All others get
