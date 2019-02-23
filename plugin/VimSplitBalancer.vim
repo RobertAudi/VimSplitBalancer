@@ -22,6 +22,12 @@ let g:loaded_vim_split_balancer = 1
 let g:VimSplitBalancerMaxSideBar = get(g:, 'VimSplitBalancerMaxSideBar',  50)
 let g:VimSplitBalancerMaxWidth   = get(g:, 'VimSplitBalancerMaxWidth',   110)
 let g:VimSplitBalancerMinWidth   = get(g:, 'VimSplitBalancerMinWidth',    70)
+let g:VimSplitBalancerIgnoreFiletypes = get(g:, 'VimSplitBalancerIgnoreFiletypes', [])
+
+let s:VimSplitBalancerIgnoreFiletypes = uniq(extend([
+      \   'nerdtree',
+      \   'tagbar',
+      \ ], g:VimSplitBalancerIgnoreFiletypes))
 
 " - winwidth setting is the *minimum* window width for the focused window at
 "   the time of invoking `wincmd =`, or just focusing a window. All others get
@@ -43,7 +49,7 @@ function! s:EnsureNERDWidth()
   " invoked) that doesn't make it immune to resizing when that window does
   " `wincmd =` itself, or is focused itself. To simulate that, we
   " temporarily set that global `winwidth` to the current width.
-  if &winfixwidth || exists('b:NERDTree')
+  if &winfixwidth || index(s:VimSplitBalancerIgnoreFiletypes, &filetype) >= 0
     let &winwidth = min([winwidth(0), g:VimSplitBalancerMaxSideBar])
     if winwidth(0) != &winwidth
       execute 'vertical resize ' . &winwidth
@@ -65,10 +71,6 @@ function! s:EnsureNERDWidth()
   " on the NERDTree etc.
   let &winwidth = 1
 endfunction
-
-if !exists('g:NERDTreeWinSize')
-  let g:NERDTreeWinSize = 40
-endif
 
 augroup VimSplitBalancer
   autocmd!
