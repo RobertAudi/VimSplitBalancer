@@ -23,21 +23,6 @@ let g:VimSplitBalancerMinWidth=70
 let g:vim_split_balancer = 1
 
 
-" There's got to be a builtin for this!
-function s:Min(num1, num2)
-  if a:num1 < a:num2
-    return a:num1
-  endif
-  return a:num2
-endfunction
-
-function s:Max(num1, num2)
-  if a:num1 > a:num2
-    return a:num1
-  endif
-  return a:num2
-endfunction
-
 " - winwidth setting is the *minimum* window width for the focused window at
 "   the time of invoking `wincmd =`, or just focusing a window. All others get
 "   space distributed, unless they have set winfixwidth/winfixheight.
@@ -57,7 +42,7 @@ function! s:EnsureNERDWidth()
       " `wincmd =` itself, or is focused itself. To simulate that, we
       " temporarily set that global `winwidth` to the current width.
       if &winfixwidth || exists("b:NERDTreeType")
-        let &winwidth = s:Min(winwidth(0), g:VimSplitBalancerMaxSideBar)
+        let &winwidth = min([winwidth(0), g:VimSplitBalancerMaxSideBar])
         if winwidth(0) != &winwidth
           execute "vertical resize " . &winwidth
         endif
@@ -66,7 +51,7 @@ function! s:EnsureNERDWidth()
         let longest = max(map(range(1, line('$')), "virtcol([v:val, '$'])"))
         " We set the global setting when entering any window to make it seem
         " as if winwidth was a perf-window setting.
-        let &winwidth = s:Max(g:VimSplitBalancerMinWidth, s:Min(longest, g:VimSplitBalancerMaxWidth))
+        let &winwidth = max([g:VimSplitBalancerMinWidth, min([longest, g:VimSplitBalancerMaxWidth])])
         wincmd =
       endif
       " Now, set it back to 1, so that it effectively disables resizing when
