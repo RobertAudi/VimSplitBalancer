@@ -67,9 +67,6 @@ if exists('g:NERDTreeWinSize')
 else
   let g:NERDTreeWinSize=40
 endif
-" Dillgently remember the sidebar size
-" autocmd TabLeave   * call <SID>CaptureNERDWidth()
-" autocmd WinLeave   * call <SID>CaptureNERDWidth()
 
 augroup VimSplitBalancer
   autocmd!
